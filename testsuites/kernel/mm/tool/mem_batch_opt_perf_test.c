@@ -97,7 +97,7 @@ int main(int argc, FAR char *argv[])
                 free(address_ptr);
                 clock_gettime(CLOCK_MONOTONIC, &t_end);
                 timedif = 1000000 * (t_end.tv_sec - t_start.tv_sec) + (t_end.tv_nsec - t_start.tv_nsec) / 1000;
-                syslog(LOG_INFO, "[Test %d Round] Free -> mem_list[%d] (address:%p size:%d) takes:%ld microseconds\n", n, k, address_ptr, malloc_size, timedif);
+                syslog(LOG_INFO, "[Test %d Round] Free -> mem_list[%d] (size:%d) takes:%ld microseconds\n", n, k, malloc_size, timedif);
                 mem_list[k] = NULL;
             }
         }
