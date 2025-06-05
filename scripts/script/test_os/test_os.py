@@ -96,7 +96,7 @@ def test_fs_test(p):
 
 @pytest.mark.run(order=-1)
 def test_psram_test(p):
-    if p.board in do_not_support:
+    if p.board in do_not_support or p.board in ["goldfish-x86_64-ap"]:
         pytest.skip("unsupported at {}".format(p.board))
     if p.sendCommand("ls /", "tmp/") == 0:
         ret = p.sendCommand("fstest -n 10 -m /tmp", "Final memory usage", timeout=500)

@@ -26,7 +26,7 @@ import pytest
 
 
 class TestLibuv:
-    pytestmark = [pytest.mark.sim, pytest.mark.goldfish_armeabi_v7a_ap]
+    pytestmark = [pytest.mark.sim, pytest.mark.goldfish_armeabi_v7a_ap, pytest.mark.goldfish_x86_64_ap]
 
     def test_test_macros(self, p):
         ret = p.sendCommand(

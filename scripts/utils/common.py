@@ -411,6 +411,18 @@ class start:
                     logfile=self.log_fd,
                     maxread=200000,
                 )
+        elif flag1 == "intel64":
+            if board == "goldfish-x86_64-ap":
+                self.log_fd = open(self.log, "ab+")
+                self.process = pexpect.spawn(
+                    "bash",
+                    [
+                        "-c",
+                        f"./emulator.sh vela -no-window ",
+                    ],
+                    logfile=self.log_fd,
+                    maxread=200000,
+                )
         self.process.delayafterread = None
         self.clean_buffer()
         self.process.sendline('\n')
