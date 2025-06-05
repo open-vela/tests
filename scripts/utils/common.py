@@ -466,7 +466,10 @@ def findFile(path, flag, board, core=None, match=True):
             if match and name == flag and ".o" not in name:
                 fList.append(os.path.join(root, name))
     if len(fList) != 1:
-        fList = [x for x in fList if board in x and core + "/" in x and "ffmpeg" not in x]
+        ftmp = [x for x in fList if board in x and core + "/" in x]
+        if len(ftmp) == 0:
+            ftmp = [x for x in fList if "ffmpeg" not in x]
+        fList = ftmp
     print(fList)
     return fList
 
