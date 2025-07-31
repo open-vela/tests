@@ -26,9 +26,10 @@
 __attribute__((unused)) static void *threadFunc(void *args)
 {
     eventfd_t Eventfd01_buffer;
+    int fd = *(int *)args;
     for (int i = 1; i < 6; i++)
     {
-        read((int)args, &Eventfd01_buffer, sizeof(eventfd_t));
+        read(fd, &Eventfd01_buffer, sizeof(eventfd_t));
         sleep(1);
     }
 
