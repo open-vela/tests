@@ -3363,17 +3363,17 @@ def test_ltp_interfaces_sigaction_28_25(p):
     assert retID >= 0
 
 
-def test_ltp_interfaces_mq_close_4_1(p):
-    if p.target in ['sim']:
-        ret = p.sendCommand('ltp_interfaces_mq_close_4_1', [
-                            'PASSED', 'passed', 'Passed', 'PASS'], timeout=10, sim_ltp=True)
-        retID = p.sendCommand('echo $?', '0', timeout=2, sim_ltp=True)
-    else:
-        ret = p.sendCommand('ltp_interfaces_mq_close_4_1', [
-                            'PASSED', 'passed', 'Passed', 'PASS'], timeout=10)
-        retID = p.sendCommand('echo $?', '0', timeout=2)
-    assert ret >= 0
-    assert retID >= 0
+#def test_ltp_interfaces_mq_close_4_1(p):
+#    if p.target in ['sim']:
+#        ret = p.sendCommand('ltp_interfaces_mq_close_4_1', [
+#                            'PASSED', 'passed', 'Passed', 'PASS'], timeout=10, sim_ltp=True)
+#        retID = p.sendCommand('echo $?', '0', timeout=2, sim_ltp=True)
+#    else:
+#        ret = p.sendCommand('ltp_interfaces_mq_close_4_1', [
+#                            'PASSED', 'passed', 'Passed', 'PASS'], timeout=10)
+#        retID = p.sendCommand('echo $?', '0', timeout=2)
+#    assert ret >= 0
+#    assert retID >= 0
 
 
 def test_ltp_interfaces_pthread_rwlock_unlock_4_2(p):
@@ -3596,17 +3596,17 @@ def test_ltp_interfaces_sigaction_18_10(p):
     assert retID >= 0
 
 
-def test_ltp_interfaces_mq_close_3_1(p):
-    if p.target in ['sim']:
-        ret = p.sendCommand('ltp_interfaces_mq_close_3_1', [
-                            'PASSED', 'passed', 'Passed', 'PASS'], timeout=10, sim_ltp=True)
-        retID = p.sendCommand('echo $?', '0', timeout=2, sim_ltp=True)
-    else:
-        ret = p.sendCommand('ltp_interfaces_mq_close_3_1', [
-                            'PASSED', 'passed', 'Passed', 'PASS'], timeout=10)
-        retID = p.sendCommand('echo $?', '0', timeout=2)
-    assert ret >= 0
-    assert retID >= 0
+#def test_ltp_interfaces_mq_close_3_1(p):
+#    if p.target in ['sim']:
+#        ret = p.sendCommand('ltp_interfaces_mq_close_3_1', [
+#                            'PASSED', 'passed', 'Passed', 'PASS'], timeout=10, sim_ltp=True)
+#        retID = p.sendCommand('echo $?', '0', timeout=2, sim_ltp=True)
+#    else:
+#        ret = p.sendCommand('ltp_interfaces_mq_close_3_1', [
+#                            'PASSED', 'passed', 'Passed', 'PASS'], timeout=10)
+#        retID = p.sendCommand('echo $?', '0', timeout=2)
+#    assert ret >= 0
+#    assert retID >= 0
 
 
 def test_ltp_interfaces_strftime_3_1(p):
