@@ -26,7 +26,7 @@ import os
 
 import pytest
 
-pytestmark = [pytest.mark.rv_virt]
+pytestmark = [pytest.mark.common, pytest.mark.rv_virt, pytest.mark.goldfish_armeabi_v7a_ap]
 
 cmocka_list_start = "cmocka_list_start"
 cmocka_list_end = "cmocka_list_end"
