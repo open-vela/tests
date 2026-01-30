@@ -22,15 +22,6 @@ MODULE = $(CONFIG_TESTS_TESTSUITES)
 # treat all warning as error
 CFLAGS += -Werror
 
-ifneq ($(CONFIG_CM_FS_TEST),)
-CFLAGS += -I$(CURDIR)/kernel/fs/include
-CFLAGS += -I$(APPDIR)/nshlib
-CSRCS += $(wildcard kernel/fs/cases/*.c)
-CSRCS += $(wildcard kernel/fs/common/*.c)
-PROGNAME += cmocka_fs_test
-MAINSRC += $(CURDIR)/kernel/fs/cmocka_fs_test.c
-endif
-
 ifneq ($(CONFIG_CM_SCHED_TEST),)
 CFLAGS += -I$(CURDIR)/kernel/sched/include
 CSRCS += $(wildcard kernel/sched/cases/*.c)
@@ -48,18 +39,6 @@ PROGNAME += cmocka_syscall_test
 MAINSRC += $(CURDIR)/kernel/syscall/cmocka_syscall_test.c
 endif
 
-ifneq ($(CONFIG_CM_MM_TEST),)
-CFLAGS += -I$(CURDIR)/kernel/mm/include
-CSRCS += $(wildcard kernel/mm/cases/*.c)
-CSRCS += $(wildcard kernel/mm/common/*.c)
-PROGNAME += cmocka_mm_test
-MAINSRC += $(CURDIR)/kernel/mm/cmocka_mm_test.c
-PROGNAME += mem_batch_opt_perf_test
-MAINSRC += $(CURDIR)/kernel/mm/tool/mem_batch_opt_perf_test.c
-PROGNAME += mem_cycle_opt_perf_test
-MAINSRC += $(CURDIR)/kernel/mm/tool/mem_cycle_opt_perf_test.c
-endif
-
 ifneq ($(CONFIG_CM_KVDB_TEST),)
 CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/frameworks/kvdb
 CFLAGS += -I$(CURDIR)/kernel/kv/include
@@ -74,13 +53,6 @@ CFLAGS += -I$(CURDIR)/kernel/time/include
 CSRCS += $(wildcard kernel/time/cases/*.c)
 PROGNAME += cmocka_time_test
 MAINSRC += $(CURDIR)/kernel/time/cmocka_time_test.c
-endif
-
-ifneq ($(CONFIG_CM_SOCKET_TEST),)
-CFLAGS += -I$(CURDIR)/kernel/socket/include
-CSRCS += $(wildcard kernel/socket/cases/*.c)
-PROGNAME += cmocka_socket_test
-MAINSRC += $(CURDIR)/kernel/socket/cmocka_socket_test.c
 endif
 
 ifneq ($(CONFIG_CM_PTHREAD_TEST),)
