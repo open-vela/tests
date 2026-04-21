@@ -1,0 +1,66 @@
+/****************************************************************************
+ * apps/tests/testcases/media_test/media_graph/media_graph_buffer_stop.c
+ *
+ * Name: media_graph_buffer_stop
+ * Example description:
+ *  1. media_graph_buffer_stop
+ *
+ ****************************************************************************/
+
+/****************************************************************************
+ * Included Files
+ ****************************************************************************/
+
+#include "media_graph_test.h"
+#include <media_api.h>
+#include <nuttx/config.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <syslog.h>
+
+/****************************************************************************
+ * Public Functions
+ ****************************************************************************/
+
+int main(int argc, FAR char *argv[])
+{
+  struct mediatest_data *media =
+      (struct mediatest_data *)malloc(sizeof(struct mediatest_data));
+  mediatest_setup(media);
+  mediatest_getopt(argc, argv, media);
+  mediatest_uv_player_enter();
+  struct mediatest_app *player_test;
+  UV_EXECUTE(mediatest_app_init, media);
+  ST_CHECK(PLAYER_STARTED, media, "FAILED ! uv player started failed\n");
+  sleep(media->time);
+  UV_EXECUTE(mediatest_app_pause, media);
+  ST_CHECK(PLAYER_PAUSED, media, "FAILED ! uv player paused failed\n");
+  while (--media->rept > 0)
+    {
+      sleep(2);
+      UV_EXECUTE(mediatest_app_play, media);
+      ST_CHECK(PLAYER_STARTED, media,
+               "FAILED ! uv player paused failed\n");
+      sleep(media->time);
+      UV_EXECUTE(mediatest_app_pause, media);
+
+      ST_CHECK(PLAYER_PAUSED, media,
+               "FAILED ! uv player started failed\n");
+    }
+  sleep(2);
+
+  UV_EXECUTE(mediatest_app_play, media);
+
+  ST_CHECK(PLAYER_STARTED, media, "FAILED ! uv player paused failed\n");
+  syslog(LOG_INFO, "media uvplayer pause PASSED!\n");
+
+out:
+  media->stop_flag = true;
+  usleep(500 * 1000);
+  UV_EXECUTE(mediatest_app_stop, media);
+  UV_EXECUTE(mediatest_app_exit, media);
+  mediatest_uv_exit();
+  free(media);
+  media = NULL;
+  return 0;
+}

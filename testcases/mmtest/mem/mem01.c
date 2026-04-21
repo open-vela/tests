@@ -27,7 +27,7 @@ static m_info get_meminfo(void)
 {
 	int fd, memread, count = 1;
 	FAR char *buffer, *p = NULL;
-	m_info MemInfo;
+	m_info velaMemInfo;
 	fd = open("/proc/meminfo", O_RDONLY);
 	if (fd < 0)
 	{
@@ -53,16 +53,16 @@ static m_info get_meminfo(void)
 		count++;
 		if (count == 8)
 		{
-			MemInfo.mem_total = atol(strtok(NULL, " \n"));
-			MemInfo.mem_used = atol(strtok(NULL, " \n"));
-			MemInfo.mem_free = atol(strtok(NULL, " \n"));
-			MemInfo.mem_largest = atol(strtok(NULL, " \n"));
+			velaMemInfo.mem_total = atol(strtok(NULL, " \n"));
+			velaMemInfo.mem_used = atol(strtok(NULL, " \n"));
+			velaMemInfo.mem_free = atol(strtok(NULL, " \n"));
+			velaMemInfo.mem_largest = atol(strtok(NULL, " \n"));
 		}
 		p = strtok(NULL, " \n");
 	}
 	close(fd);
 	free(buffer);
-	return MemInfo;
+	return velaMemInfo;
 }
 
 static void do_test(void)

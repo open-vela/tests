@@ -15,7 +15,6 @@
 #define TEST_PASS 0
 #define TEST_FAIL -1
 
-#define MAX_PATH 300
 #define TEST_DIR "testDir"
 
 __attribute__((unused)) static void rm_test_dir(char *path)
@@ -30,7 +29,7 @@ __attribute__((unused)) static void rm_test_dir(char *path)
             continue;
         }
 
-        fullpath = (char *)malloc(MAX_PATH);
+        fullpath = (char *)malloc(CONFIG_PATH_MAX);
         if (fullpath == NULL)
         {
             syslog(LOG_ERR, "rmdir malloc fail\n");
@@ -54,7 +53,7 @@ close:
 
 __attribute__((unused)) static void cleanup(void)
 {
-    char buf[MAX_PATH] = {0};
+    char buf[CONFIG_PATH_MAX] = {0};
     getcwd(buf, sizeof(buf));
     rm_test_dir(buf);
     char *str = basename(buf);
