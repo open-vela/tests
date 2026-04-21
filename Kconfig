@@ -7,5 +7,4 @@
 
 menu "Vela Tests"
 source "$APPSDIR/tests/testcases/Kconfig"
-source "$APPSDIR/tests/testsuites/Kconfig"
 endmenu # Vela Tests
