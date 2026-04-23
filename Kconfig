@@ -6,5 +6,5 @@
 #
 
 menu "Vela Tests"
-source "$APPSDIR/tests/testcases/Kconfig"
+source "/home/li/openvela-d12x-gitee/tests/testcases/Kconfig"
 endmenu # Vela Tests

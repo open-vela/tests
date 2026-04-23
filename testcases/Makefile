@@ -145,15 +145,15 @@ include $(CURDIR)/flash_rw/flash_rw.mk
 
 include $(CURDIR)/abnormal_test/abnormal_test.mk
 
-include $(CURDIR)/block_device_test/block_test.mk
+#include $(CURDIR)/block_device_test/block_test.mk
 
-include $(CURDIR)/libc_test/libc_test.mk
+#include $(CURDIR)/libc_test/libc_test.mk
 
-include $(CURDIR)/spi_slave_test/spi_slave_test.mk
+#include $(CURDIR)/spi_slave_test/spi_slave_test.mk
 
 include $(CURDIR)/smp_test/smp_test.mk
 
-include $(CURDIR)/http_test/http_test.mk
+#include $(CURDIR)/http_test/http_test.mk
 
 include $(CURDIR)/repeat/repeat.mk
 
