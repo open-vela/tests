@@ -23,9 +23,39 @@ config VIDEO_WIDGET_TEST
 	default n
 	depends on LVX_USE_VIDEO_ADAPTER
 
+if ANIMATION_ENGINE
+
 config ANIMATION_ENGINE_TEST
 	bool "enable animation engine test"
 	default n
-	depends on ANIMATION_ENGINE && LVX_USE_ANIMENGINE_ADAPTER
+	depends on LVX_USE_ANIMENGINE_ADAPTER
+	
+config ANIMATION_ENGINE_CTEST
+	bool "enable animation engine c test"
+	default n
+	depends on LVX_USE_ANIMENGINE_ADAPTER
+
+config ANIM_PHYSICS_ENGINE_TEST
+	bool "enable pyhsics engine test"
+	default n
+	depends on ANIM_PHYSICS_ENGINE && LVX_USE_ANIMENGINE_ADAPTER && LVX_USE_EFFECT_PAINTER
+
+config RIVE_TEST
+	bool "enable rive test"
+	default n
+	depends on LVX_USE_ANIMENGINE_ADAPTER
+
+config GESTURES_TEST
+	bool "test gestures example for test"
+	default n
+	depends on LV_USE_GESTURE_RECOGNITION
+endif # ANIMATION_ENGINE
+
+config LV_BLUR_TEST
+	bool "enable lv_blur test"
+	default n
+	depends on GRAPHICS_LVGL
 
 endif # GRAPHICS_TEST
+
+

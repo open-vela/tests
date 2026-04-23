@@ -14,7 +14,6 @@
 
 include $(APPDIR)/Make.defs
 
-
 PRIORITY = $(CONFIG_TESTING_TESTCASES_PRIORITY)
 STACKSIZE = $(CONFIG_TESTING_TESTCASES_STACKSIZE)
 MODULE = $(CONFIG_TESTS_TESTCASES)
@@ -39,10 +38,16 @@ ifneq ($(CONFIG_KVDB_TEST),)
 	CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/frameworks/utils
 endif
 
+ifneq ($(CONFIG_CM_ETHOS_DRIVER_TEST),)
+	include $(CURDIR)/ai_test/ethos/etho_driver_test.mk
+endif
+
+
+
 ifneq ($(CONFIG_FS_TEST),)
-	include $(CURDIR)/fs_test/fs_test.mk
+	include $(CURDIR)/vela_fs_test/fs_test.mk
 	CFLAGS += -I$(APPDIR)/nshlib
-	CFLAGS += -I$(CURDIR)/fs_test/fs/include
+	CFLAGS += -I$(CURDIR)/vela_fs_test/fs/include
 endif
 
 ifneq ($(CONFIG_SOCKET_RPMSG_TEST),)
@@ -55,7 +60,7 @@ endif
 
 ifneq ($(CONFIG_RPMSGBLK_TEST),)
 	include $(CURDIR)/rpmsgblk/rpmsgblk.mk
-        include $(CURDIR)/mmc_utils/mmc_utils.mk
+    include $(CURDIR)/mmc_utils/mmc_utils.mk
 endif
 
 ifneq ($(CONFIG_RPTUNRESET_TEST),)
@@ -116,10 +121,6 @@ ifneq ($(CONFIG_SECURE_TEST),)
 	include $(CURDIR)/secure_test/secure_test.mk
 endif
 
-ifneq ($(CONFIG_TESTCASE_KASAN_TEST),)
-	include $(CURDIR)/kasan_test/kasan_test.mk
-endif
-
 ifneq ($(CONFIG_CPUFREQ_TEST),)
 	include $(CURDIR)/cpufreq_test/cpufreq_test.mk
 endif
@@ -128,29 +129,37 @@ ifneq ($(CONFIG_REGULATOR_TEST),)
 	include $(CURDIR)/regulator_test/regulator_test.mk
 endif
 
-ifneq ($(CONFIG_VIBRATOR_TEST),)
-	include $(CURDIR)/vibrator_test/vibrator_test.mk
-	CFLAGS += -I$(CURDIR)/vibrator_test/include
-	CFLAGS += -I${APPDIR}/frameworks/vibrator/include
+ifneq ($(CONFIG_RUNTIME_PM_TEST),)
+	include $(CURDIR)/runtime_pm_test/runtime_pm_test.mk
+endif
+
+ifneq ($(CONFIG_SYSTEM_PM_TEST),)
+	include $(CURDIR)/system_pm_test/system_pm_test.mk
+endif
+
+ifneq ($(CONFIG_THERMAL_TEST),)
+	include $(CURDIR)/thermal_test/thermal_test.mk
 endif
 
 include $(CURDIR)/flash_rw/flash_rw.mk
 
 include $(CURDIR)/abnormal_test/abnormal_test.mk
 
-include $(CURDIR)/block_device_test/block_test.mk
+#include $(CURDIR)/block_device_test/block_test.mk
 
-include $(CURDIR)/libc_test/libc_test.mk
+#include $(CURDIR)/libc_test/libc_test.mk
 
-include $(CURDIR)/spi_slave_test/spi_slave_test.mk
+#include $(CURDIR)/spi_slave_test/spi_slave_test.mk
 
 include $(CURDIR)/smp_test/smp_test.mk
 
-include $(CURDIR)/http_test/http_test.mk
+#include $(CURDIR)/http_test/http_test.mk
 
 include $(CURDIR)/repeat/repeat.mk
 
 include $(CURDIR)/graphics_test/graphics_test.mk
+
+include $(CURDIR)/uikit_test/uikit_test.mk
 
 ifneq ($(CONFIG_BINDER_AIDL_TEST),)
 	include $(CURDIR)/binder_test/binder_test.mk
@@ -158,6 +167,28 @@ endif
 
 ifneq ($(CONFIG_FDCHECK_TEST),)
 	include $(CURDIR)/fdcheck_test/fdcheck_test.mk
+endif
+
+
+ifneq ($(CONFIG_LIN_TEST),)
+	include $(CURDIR)/lintest/lintest.mk
+endif
+
+ifneq ($(CONFIG_SOCKET_CAN_TEST),)
+	include $(CURDIR)/socket_can_test/socket_can_test.mk
+	CFLAGS += -I${INCDIR_PREFIX}$(APPDIR)/canutils/libcanutils
+endif
+
+CSRCS := $(wildcard $(CSRCS))
+MAINSRC := $(wildcard $(MAINSRC))
+NOEXPORTSRCS = $(CSRCS)$(MAINSRC)
+
+ifneq ($(NOEXPORTSRCS),)
+BIN := $(APPDIR)/staging/libtestcases.a
+endif
+
+ifneq ($(CONFIG_ETHOS_INVOKE_TEST),)
+	include $(CURDIR)/ai_test/ethos_invoke/etho_invoke_test.mk
 endif
 
 include $(APPDIR)/Application.mk

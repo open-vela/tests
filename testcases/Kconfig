@@ -4,165 +4,170 @@
 #
 
 config TESTS_TESTCASES
-	tristate "auto test module"
+	tristate "vela auto test module"
 	default n
 	---help---
 		Enable support for the fs test
 
+if TESTS_TESTCASES
+
 config TESTING_TESTCASES_PRIORITY
 	int "Task priority"
 	default 100
-	depends on TESTS_TESTCASES
 
 config TESTING_TESTCASES_STACKSIZE
 	int "Stack size"
 	default 4096
-	depends on TESTS_TESTCASES
 
 config SYSLOG_TEST
 	bool "enable syslog test"
 	default n
-	depends on TESTS_TESTCASES
 
 config MM_TEST
 	bool "enable mm test"
 	default n
-	depends on TESTS_TESTCASES
+
+config BLOCK_DEVICE_TEST
+	bool "enable block device test"
+	depends on BCH
+	default n
 
 config KVDB_TEST
 	bool "enable kvdb test"
+	depends on KVDB
+	default n
+
+if KVDB_TEST
+
+menu "Vela Kvdb Support"
+
+config KVDB_TEST_API
+	bool "enable kvdb_api test"
+	default n
+
+config KVDB_TEST_FUNCTION
+	bool "enable kvdb_function test"
+	default n
+
+config KVDB_TEST_EXCEPTION
+	bool "enable kvdb_exception test"
+	default n
+
+config KVDB_TEST_STRESS
+	bool "enable kvdb_stress test"
+	default n
+
+config KVDB_TEST_STABILITY
+	bool "enable kvdb_stability test"
+	default n
+
+config KVDB_TEST_MONITOR
+	bool "enable kvdb_monitor test"
+	depends on KVDB_SERVER
+	default n
+
+config KVDB_TEST_POWERDOWN
+	bool "enable kvdb_powerdown test"
+	default n
+	depends on KVDB_TEST
+
+endmenu # Vela Kvdb Support
+
+endif # KVDB_TEST
+
+config AI_TEST
+	bool "enable ai test"
 	default n
 	depends on TESTS_TESTCASES
 
-if KVDB_TEST
-	config KVDB_TEST_API
-		bool "enable kvdb_api test"
-		default n
-		depends on KVDB_TEST
+config CM_ETHOS_DRIVER_TEST
+	bool "enable ethos driver test"
+	default n
+	depends on AI_TEST
 
-	config KVDB_TEST_FUNCTION
-		bool "enable kvdb_function test"
-		default n
-		depends on KVDB_TEST
-
-	config KVDB_TEST_EXCEPTION
-		bool "enable kvdb_exception test"
-		default n
-		depends on KVDB_TEST
-
-	config KVDB_TEST_STRESS
-		bool "enable kvdb_stress test"
-		default n
-		depends on KVDB_TEST
-
-	config KVDB_TEST_STABILITY
-		bool "enable kvdb_stability test"
-		default n
-		depends on KVDB_TEST
-
-	config KVDB_TEST_MONITOR
-		bool "enable kvdb_monitor test"
-		default n
-		depends on KVDB_TEST
-
-endif # KVDB_TEST
+config ETHOS_INVOKE_TEST
+	bool "enable ethos invoke test"
+	default n
+	depends on AI_TEST
 
 config FS_TEST
 	bool "enable fs test"
 	default n
-	depends on TESTS_TESTCASES
 
-config FS_TEST_API
-	bool "enable fs_api test"
-	default n
-	depends on FS_TEST
+if FS_TEST
+
+menu "Vela FS test Support"
 
 config FS_TEST_FUNCTION
 	bool "enable fs_function test"
 	default n
-	depends on FS_TEST
 
 config FS_TEST_STABILITY
 	bool "enable fs_stability test"
 	default n
-	depends on FS_TEST
 
 config FS_TEST_STRESS
 	bool "enable fs_stress test"
 	default n
-	depends on FS_TEST
 
 config FS_TEST_POWEROFF
 	bool "enable fs_poweroff test"
 	default n
-	depends on FS_TEST
 
 config FS_TEST_EDONLY
 	bool "enable read only fs test"
 	default n
-	depends on FS_TEST
+
+endmenu # Vela FS test Support
+
+endif # FS_TEST
 
 config SOCKET_RPMSG_TEST
 	bool "enable socket rpmsg test"
-	default n
-	depends on TESTS_TESTCASES
-	select NET_RPMSG
+	depends on NET_RPMSG
 
 config RPMSGDEV_TEST
 	bool "enable rpmsgdev test"
-	default n
-	depends on TESTS_TESTCASES
+	depends on DEV_RPMSG_SERVER || DEV_RPMSG
+
+if RPMSGDEV_TEST
+
+config TESTCASES_RPMSGDEV_DEFAULT_PATH
+	string "Default rpmsg device path"
+	default "/dev/rpmsgdev"
+	---help---
+		Sets the default device path that the rpmsgdev server will export.
+		This path is used when the testdev client requests an export
+		without specifying a dynamic path. The user can change this value
+		through 'make menuconfig'.
+
+endif # RPMSGDEV_TEST
 
 config RPMSGBLK_TEST
 	bool "enable rpmsgblk test"
-	default n
-	depends on TESTS_TESTCASES
+	depends on (BLK_RPMSG_SERVER || BLK_RPMSG) && BCH
 
 config RPTUNRESET_TEST
 	bool "enable rptun reset test"
 	default n
-	depends on TESTS_TESTCASES
-
-config UORB_CASE_TEST
-	bool "enable uorb case test"
-	default n
-	depends on TESTS_TESTCASES
-
-if UORB_CASE_TEST
-	config UORB_ADVERTISE_DEMO
-		bool "enable uorb advertise demo"
-		default n
-
-	config UORB_TEST_DEMO
-		bool "enable uorb test demo"
-		default n
-	config UORB_RPMSG_TEST
-		bool "enable uorb rpmsg test"
-		default n
-	config UORB_DOWNSAMPLING_TEST
-		bool "enable uorb downsampling test"
-		default n
-endif
 
 config SCHED_TEST
 	bool "enbale schedule test"
+	depends on CANCELLATION_POINTS && SCHED_HAVE_PARENT && SCHED_WAITPID && SCHED_CHILD_STATUS
 	default n
-	depends on TESTS_TESTCASES
+	depends on SCHED_WAITPID && SCHED_HAVE_PARENT && SCHED_CHILD_STATUS
 
 config SOCKET_PERFORMANCE_TEST
 	bool "enable socket performance test"
 	default n
-	depends on TESTS_TESTCASES
 
 config FLASH_RW_TEST
 	bool "enable flash rw test"
 	default n
-	depends on TESTS_TESTCASES
 
 config MEDIAS_TEST
 	bool "enable media test"
 	default n
-	depends on TESTS_TESTCASES
 
 config MEDIA_GRAPH_TEST
 	bool "enable media graph test"
@@ -176,6 +181,16 @@ config MEDIA_CLIENT_TEST
 
 config MEDIA_SERVER_TEST
 	bool "enable media rpc server test"
+	default n
+	depends on MEDIAS_TEST
+
+config CM_MEDIA_FOCUS2_TEST
+	bool "enable media focus2 test"
+	default n
+	depends on MEDIAS_TEST
+
+config VIDEOTEST_PLAYER
+	bool "enable video test"
 	default n
 	depends on MEDIAS_TEST
 
@@ -200,108 +215,194 @@ config MEDIATEST_PLAYER
 	default n
 	depends on MEDIAS_TEST
 
+config MEDIA_FATE
+	bool "enable ffmpeg fate test"
+	default n
+	depends on MEDIAS_TEST
+
+config CM_MEDIA_SCENARIO_TEST
+	bool "enable media scenario test"
+	default n
+	depends on MEDIAS_TEST
+
+config CM_SCENARIO_PLAYBACK_TEST
+	bool "enable playback test"
+	default n
+	depends on CM_MEDIA_SCENARIO_TEST
+
+config CM_SCENARIO_UV_INTERACT_TEST
+	bool "enable uv interact test"
+	default n
+	depends on CM_MEDIA_SCENARIO_TEST
+
+config MEDIATEST_COMMON_PATH
+	string "common audio path"
+	default "/data/media_scenario/" if ARCH_SIM || ARCH_CHIP_BES1600 || ARCH_CHIP_R528
+	default "/share/media_scenario/" if ARCH_CHIP_GOLDFISH_ARM
+	depends on CM_MEDIA_SCENARIO_TEST
+
+config MEDIATEST_COMMON_AUDIO_1
+	string "common audio 1"
+	default "common.wav"
+	depends on CM_MEDIA_SCENARIO_TEST
+
+config MEDIATEST_RECORDER_PATH
+	string "recorder audio path"
+	default "2.opus"
+	depends on CM_MEDIA_SCENARIO_TEST
+
+config MEDIATEST_FOCUS_AUDIO_1
+	string "common focus audio 1"
+	default "focus.wav"
+	depends on CM_SCENARIO_UV_INTERACT_TEST
+
+config MEDIATEST_FOCUS_SHORT_1
+	string "common focus audio 1"
+	default "focus_s.wav"
+	depends on CM_SCENARIO_UV_INTERACT_TEST
+
+config MEDIATEST_COMMON_SHORT_1
+	string "short audio 17ms"
+	default "click.aac"
+	depends on CM_MEDIA_SCENARIO_TEST
+
+config MEDIATEST_COMMON_SHORT_2
+	string "short audio 500ms"
+	default "bluedisconnect.aac"
+	depends on CM_MEDIA_SCENARIO_TEST
+
 config TASK_TRACE_TEST
 	bool "enable task trace test"
-        default n
-	depends on TESTS_TESTCASES
+	default n
 
 config SECURE_TEST
 	bool "enable secure test"
 	default n
-	depends on TESTS_TESTCASES
 
 if SECURE_TEST
-	config CA_TEST
-		bool "enable ca test"
-		default n
 
-	config KEYSTORE_TEST
-		bool "enable keystore test"
-		default n
-endif
+menu "Vela Secure test Support"
+
+config CA_TEST
+	bool "enable ca test"
+	default n
+
+config KEYSTORE_TEST
+	bool "enable keystore test"
+	default n
+
+config MBEDTLS_TEST
+	bool "enable mbedtls"
+	default n
+
+endmenu # Vela Secure test Support
+
+endif # SECURE_TEST
 
 config CPUFREQ_TEST
 	bool "enable cpufreq test"
+	depends on CPUFREQ
 	default n
-	depends on TESTS_TESTCASES
+
+config THERMAL_TEST
+	bool "enable thermal test"
+	depends on THERMAL
+	default n
 
 config REGULATOR_TEST
+	depends on REGULATOR
 	bool "enable regulator test"
 	default n
-	depends on TESTS_TESTCASES
+
+config RUNTIME_PM_TEST
+	bool "enable runtime pm test"
+	default n
+
+config SYSTEM_PM_TEST
+	bool "enable system pm test"
+	default n
 
 config NETWORK_TEST
 	bool "enable network test"
 	default n
-	depends on TESTS_TESTCASES
 
 if NETWORK_TEST
-	config DHCPC_TEST
-		bool "enable dhcpc test"
-		default n
-	if DHCPC_TEST
-		config TESTING_TIME
-			int "testing time"
-			default 60
-	endif
 
-	config SOCKET_STAB_TEST
-		bool "enable socket stab test"
-		default n
+menu "Vela network test Support"
 
-	config LOCAL_SOCKET
-		bool "enable local socket test"
-		default n
+config DHCPC_TEST
+	bool "enable dhcpc test"
+	default n
 
-	config NETWORK_STABILITY_TEST
-		bool "enable stability test"
-		default n
-endif
+config TESTING_TIME
+	int "testing time"
+	default 60
+
+config SOCKET_STAB_TEST
+	bool "enable socket stab test"
+	default n
+
+config LOCAL_SOCKET
+	bool "enable local socket test"
+	default n
+
+config NETWORK_STABILITY_TEST
+	bool "enable stability test"
+	default n
+
+endmenu # Vela network test Support
+
+endif # NETWORK_TEST
 
 config MINSYS_APPLET_TEST
 	bool "enbale minsys applet test"
 	default n
-	depends on TESTS_TESTCASES
 
 config SPI_SLAVE_TEST
 	bool "enbale spi slave test"
+	depends on SPI_SLAVE_DRIVER
 	default n
-	depends on TESTS_TESTCASES
 
 config SMP_TEST
 	bool "enbale smp test"
 	default n
-	depends on TESTS_TESTCASES
 
 config HTTP_TEST
 	bool "enbale http test"
 	default n
-	depends on TESTS_TESTCASES
-    select LIB_CURL
-
-config TESTCASE_KASAN_TEST
-	bool "enbale kasan test"
-	default n
-	depends on TESTS_TESTCASES
+	select LIB_CURL
 
 config TEST_REPEAT
 	bool "enbale repeat tool"
 	default n
-	depends on TESTS_TESTCASES
 
 config BINDER_AIDL_TEST
 	bool "enable binder aidl test"
-	default n
-	depends on TESTS_TESTCASES
+	depends on ANDROID_BINDER
 
 config FDCHECK_TEST
 	bool "enable fdcheck test"
 	default n
-	depends on TESTS_TESTCASES
+	select NET_LOCAL
+	select FDCHECK
+	select DEV_NULL
 
-config VIBRATOR_TEST
-	bool "enable vibrator test"
+config MMC_UTILS_TEST
+	bool "enable mmc utils test"
 	default n
-	depends on TESTS_TESTCASES
+	depends on RPMSGBLK_TEST && BLK_RPMSG
+
+config LIN_TEST
+	bool "enbale lin test"
+	default n
+
+config SOCKET_CAN_TEST
+	bool "enbale socket can test"
+	default n
+	depends on NET_CAN && CANUTILS_LIBCANUTILS
+
+endif # TESTS_TESTCASES
 
 source "$APPSDIR/tests/testcases/graphics_test/Kconfig"
+source "$APPSDIR/tests/testcases/uikit_test/Kconfig"
+source "$APPSDIR/tests/testcases/lvgldemo_test/Kconfig"
