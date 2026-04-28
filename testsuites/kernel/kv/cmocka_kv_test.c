@@ -1,18 +1,22 @@
-/*
- * Copyright (C) 2020 Xiaomi Corporation
+/****************************************************************************
+ * apps/testing/testsuites/kernel/kv/cmocka_kv_test.c
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.  The
+ * ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ ****************************************************************************/
 
 /****************************************************************************
  * Included Files
@@ -30,53 +34,91 @@
 #include <cmocka.h>
 
 /****************************************************************************
+ * Private Functions
+ ****************************************************************************/
+
+/****************************************************************************
  * Name: cmocka_sched_test_main
  ****************************************************************************/
+
 int main(int argc, char *argv[])
 {
   /* Add Test Cases */
-  const struct CMUnitTest NuttxKvdbTestSuites[] = {
+
+  const struct CMUnitTest nuttx_kvdb_test_suites[] =
+  {
 #ifdef CONFIG_KVDB_TEMPORARY_STORAGE
-      cmocka_unit_test_setup_teardown(TestNuttxKv01, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv02, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv03, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv04, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv05, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv06, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv07, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv08, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv09, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv10, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv11, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv12, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv13, TestNuttxKvsetup, TestNuttxKvteardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv01, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv02, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv03, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv04, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv05, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv06, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv07, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv08, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv09, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv10, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv11, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv12, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv13, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
 #endif
-      cmocka_unit_test_setup_teardown(TestNuttxKv14, TestNuttxKvsetup, TestNuttxKvteardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv14, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
 #ifdef CONFIG_KVDB_TEMPORARY_STORAGE
-      cmocka_unit_test_setup_teardown(TestNuttxKv15, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv16, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv17, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv18, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv19, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv20, TestNuttxKvsetup, TestNuttxKvteardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv15, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv16, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv17, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv18, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv19, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv20, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
 #endif
-#ifdef CONFIG_NSH_ROMFSETC
-      cmocka_unit_test_setup_teardown(TestNuttxKv21, TestNuttxKvsetup, TestNuttxKvteardown),
+#ifdef CONFIG_KVDB_SERVER
+      cmocka_unit_test_setup_teardown(test_nuttx_kv21, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
 #endif
 #ifdef CONFIG_KVDB_TEMPORARY_STORAGE
-      cmocka_unit_test_setup_teardown(TestNuttxKv22, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv23, TestNuttxKvsetup, TestNuttxKvteardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv22, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv23, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
 #endif
-      cmocka_unit_test_setup_teardown(TestNuttxKv24, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv25, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv26, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv27, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv28, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv29, TestNuttxKvsetup, TestNuttxKvteardown),
-      cmocka_unit_test_setup_teardown(TestNuttxKv30, TestNuttxKvsetup, TestNuttxKvteardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv24, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv25, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv26, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv27, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv28, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv29, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
+      cmocka_unit_test_setup_teardown(test_nuttx_kv30, test_nuttx_kv_setup,
+                                      test_nuttx_kv_teardown),
   };
 
   /* Run Test cases */
-  cmocka_run_group_tests(NuttxKvdbTestSuites, NULL, NULL);
+
+  cmocka_run_group_tests(nuttx_kvdb_test_suites, NULL, NULL);
   return 0;
 }
