@@ -24,11 +24,6 @@ config TESTS_TESTSUITES_STACKSIZE
 	int "Testsuites stack size"
 	default 16384
 
-config CM_FS_TEST
-	bool "enable fs test"
-	default n
-	depends on TESTS_TESTSUITES
-
 config CM_SCHED_TEST
 	bool "enbale schedule test"
 	default n
@@ -39,11 +34,6 @@ config CM_SYSCALL_TEST
 	default n
 	depends on TESTS_TESTSUITES
 
-config CM_MM_TEST
-	bool "enbale MM test"
-	default n
-	depends on TESTS_TESTSUITES
-
 config CM_KVDB_TEST
 	bool "enbale kvdb test"
 	default n
@@ -51,11 +41,6 @@ config CM_KVDB_TEST
 
 config CM_TIME_TEST
 	bool "enbale time test"
-	default n
-	depends on TESTS_TESTSUITES
-
-config CM_SOCKET_TEST
-	bool "enbale socket test"
 	default n
 	depends on TESTS_TESTSUITES
 
@@ -83,6 +68,6 @@ endif
 config CM_DFX_TEST
 	bool "enbale dfx test"
 	default n
-	depends on TESTS_TESTSUITES
+	depends on NETUTILS_CJSON && DFX && DFX_EVENT
 
 endif # TESTS_TESTSUITES
