@@ -1,4 +1,5 @@
 #include <nuttx/config.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -28,6 +29,7 @@ static void do_test(void)
     double duration;
     int count = 0;
 
+    memset(buf, '%', sizeof(buf));
     start = clock();
     do
     {
@@ -36,11 +38,11 @@ static void do_test(void)
         }
         if ((fp = fopen("fullTestFile", "a+")) == NULL)
         {
-            syslog(LOG_ERR, "Fail to open file!");
+            syslog(LOG_ERR, "Fail to open file! errno=%d", errno);
             test_flag = 1;
             return;
         }
-        memset(buf, '%', sizeof(buf));
+
         rval = fwrite(buf, sizeof(buf), 1, fp);
         fclose(fp);
         if (rval == 0)

@@ -1,0 +1,14 @@
+PROGNAME += fdcheck_test_common
+MAINSRC += $(CURDIR)/fdcheck_test/fdcheck_test_common.c
+PROGNAME += fdcheck_test_thread
+MAINSRC += $(CURDIR)/fdcheck_test/fdcheck_test_thread.c
+PROGNAME += fdcheck_test_select
+MAINSRC += $(CURDIR)/fdcheck_test/fdcheck_test_select.c
+PROGNAME += fdcheck_test_socket
+MAINSRC += $(CURDIR)/fdcheck_test/fdcheck_test_socket.c
+PROGNAME += fdcheck_test_pipe
+MAINSRC += $(CURDIR)/fdcheck_test/fdcheck_test_pipe.c
+PROGNAME += fdcheck_test_fork
+MAINSRC += $(CURDIR)/fdcheck_test/fdcheck_test_fork.c
+PROGNAME += fdcheck_test_socket_server
+MAINSRC += $(CURDIR)/fdcheck_test/fdcheck_test_socket_server.c

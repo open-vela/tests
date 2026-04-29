@@ -1,0 +1,39 @@
+{
+    "id": 10,
+    "keyFrames": {
+        "x": [
+            {
+                "value": 0,
+                "time": 0,
+                "ease": [
+                    "linear"
+                ]
+            },
+            {
+                "value": 200,
+                "time": 1.5,
+                "ease": [
+                    "elasticIn"
+                ]
+            },
+            {
+                "value": 300,
+                "time": 2.5,
+                "ease": [
+                    "sineOut"
+                ]
+            },
+            {
+                "value": 249,
+                "time": 3.5,
+                "ease": [
+                    "bounceOut"
+                ]
+            },
+            {
+                "value": 300,
+                "time": 4.5
+            }
+        ]
+    }
+}

@@ -1,0 +1,36 @@
+PROGNAME += vela_sched_interface_task_test01
+MAINSRC += $(CURDIR)/sched_test/interface/task_test01.c
+PROGNAME += vela_sched_interface_task_test02
+MAINSRC += $(CURDIR)/sched_test/interface/task_test02.c
+PROGNAME += vela_sched_interface_task_test03
+MAINSRC += $(CURDIR)/sched_test/interface/task_test03.c
+PROGNAME += vela_sched_interface_task_test04
+MAINSRC += $(CURDIR)/sched_test/interface/task_test04.c
+PROGNAME += vela_sched_interface_task_test05
+MAINSRC += $(CURDIR)/sched_test/interface/task_test05.c
+PROGNAME += vela_sched_interface_task_test06
+MAINSRC += $(CURDIR)/sched_test/interface/task_test06.c
+PROGNAME += vela_sched_interface_task_test07
+MAINSRC += $(CURDIR)/sched_test/interface/task_test07.c
+
+PROGNAME += vela_sched_interface_pthread_test01
+MAINSRC += $(CURDIR)/sched_test/interface/pthread_test01.c
+PROGNAME += vela_sched_interface_pthread_test02
+MAINSRC += $(CURDIR)/sched_test/interface/pthread_test02.c
+PROGNAME += vela_sched_interface_pthread_test03
+MAINSRC += $(CURDIR)/sched_test/interface/pthread_test03.c
+PROGNAME += vela_sched_interface_pthread_test04
+MAINSRC += $(CURDIR)/sched_test/interface/pthread_test04.c
+PROGNAME += vela_sched_interface_pthread_test05
+MAINSRC += $(CURDIR)/sched_test/interface/pthread_test05.c
+PROGNAME += vela_sched_interface_pthread_test06
+MAINSRC += $(CURDIR)/sched_test/interface/pthread_test06.c
+
+PROGNAME += vela_sched_pthreads_pth01
+MAINSRC += $(CURDIR)/sched_test/pthreads/pth01.c
+PROGNAME += vela_sched_pthreads_pth02
+MAINSRC += $(CURDIR)/sched_test/pthreads/pth02.c
+PROGNAME += vela_sched_pthreads_pth03
+MAINSRC += $(CURDIR)/sched_test/pthreads/pth03.c
+PROGNAME += vela_sched_pthreads_pth04
+MAINSRC += $(CURDIR)/sched_test/pthreads/pth04.c
