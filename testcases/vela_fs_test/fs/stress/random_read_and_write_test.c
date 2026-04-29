@@ -1,4 +1,5 @@
 #include <nuttx/config.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <syslog.h>
@@ -19,6 +20,8 @@ static struct testData
 
 static void setup(void)
 {
+    int ret;
+
     /* setup：Generate test data */
     for (int k = 0; k < DATA_LEN; k++)
     {
@@ -29,19 +32,26 @@ static void setup(void)
     /* Create a file to store test data */
     if ((fp = fopen(FILENAME, "wb+")) == NULL)
     {
-        syslog(LOG_ERR, "ERROR: Cannot open file !\n");
+        syslog(LOG_ERR, "ERROR: Cannot open file! errno=%d\n", errno);
         exit(1);
     }
-    else
+
+    for (int i = 0; i < DATA_LEN; i++)
     {
-        for (int i = 0; i < DATA_LEN; i++)
+        /* Store test data to file */
+        ret = fwrite(data1, sizeof(struct testData), DATA_LEN, fp);
+        if (ret != DATA_LEN)
         {
-            /* Store test data to file */
-            fwrite(data1, sizeof(struct testData), DATA_LEN, fp);
-            fsync(fileno(fp));
+            syslog(LOG_ERR, "ERROR: Cannot write file! errno=%d", errno);
+            exit(1);
+        }
+        ret = fsync(fileno(fp));
+        if (ret < 0)
+        {
+            syslog(LOG_ERR, "ERROR: Cannot fsync file! errno=%d", errno);
+            exit(1);
         }
     }
-    return;
 }
 
 static int randomReadTest(int number)
@@ -61,13 +71,16 @@ static int randomReadTest(int number)
     for (int l = 0; l < number; l++)
     {
         srand(l);
-        if (fseek(fp, sizeof(struct testData) * (rand() % DATA_LEN), SEEK_SET) < 0)
+        ret = fseek(fp, sizeof(struct testData) * (rand() % DATA_LEN), SEEK_SET);
+        if (ret < 0)
         {
+            syslog(0, "ERROR: randomReadTest cannot fseek file! errno=%d", errno);
             return -1;
         }
         ret = fread(&data, sizeof(struct testData), 1, fp);
         if (ret == 0)
         {
+            syslog(LOG_ERR, "ERROR: randomReadTest cannot fread file! errno=%d", errno);
             return -1;
         }
     }
@@ -76,6 +89,8 @@ static int randomReadTest(int number)
 
 static int randomWriteTest(int number)
 {
+    int ret;
+
     if (number < 1)
     {
         syslog(LOG_ERR, "ERROR: Random write at least once ！\n");
@@ -94,11 +109,18 @@ static int randomWriteTest(int number)
     for (int l = 0; l < number; l++)
     {
         srand(l);
-        if (fseek(fp, sizeof(struct testData) * (rand() % DATA_LEN), SEEK_SET) < 0)
+        ret = fseek(fp, sizeof(struct testData) * (rand() % DATA_LEN), SEEK_SET);
+        if (ret < 0)
         {
+            syslog(LOG_ERR, "ERROR: randomWriteTest cannot fseek file! errno=%d", errno);
             return -1;
         }
-        fwrite(&data, sizeof(struct testData), 1, fp);
+        ret = fwrite(&data, sizeof(struct testData), 1, fp);
+        if (ret != 1)
+        {
+            syslog(LOG_ERR, "ERROR: randomWriteTest cannot fwrite file! errno=%d", errno);
+            return -1;
+        }
     }
     return 0;
 }
@@ -140,34 +162,31 @@ int main(int argc, FAR char *argv[])
     int writecount = 10;
     int readcount = 10;
 
-    if (argc == 4)
+    for (i = 1; i < argc; i++)
     {
-        for (i = 1; i < argc; i++)
+        if (strncmp(argv[i], "mountPath=", 10) == 0)
         {
-            if (strncmp(argv[i], "mountPath=", 10) == 0)
-            {
-                path = &argv[i][10];
-            }
-            else if (strncmp(argv[i], "writeCount=", 11) == 0)
-            {
-                writecount = atoi(&argv[i][11]);
-            }
-            else if (strncmp(argv[i], "readCount=", 10) == 0)
-            {
-                readcount = atoi(&argv[i][10]);
-            }
+            path = &argv[i][10];
         }
-
-        chdir(path);
+        else if (strncmp(argv[i], "writeCount=", 11) == 0)
+        {
+            writecount = atoi(&argv[i][11]);
+        }
+        else if (strncmp(argv[i], "readCount=", 10) == 0)
+        {
+            readcount = atoi(&argv[i][10]);
+        }
     }
-    else
+
+    if (path == NULL)
     {
         syslog(LOG_WARNING, "Usage:\n");
         syslog(LOG_WARNING, "cmd  writeCount=<Random write test count> readCount=<Random Read Test Count> mountPath=<File system mount directory>\n");
         exit(1);
     }
 
-    syslog(LOG_INFO, "writecount=%d    readcount=%d  mountPath=%s\n", writecount, readcount, path);
+    chdir(path);
+    syslog(LOG_INFO, "writecount=%d  readcount=%d  mountPath=%s\n", writecount, readcount, path);
 
     /* Prepare test data */
     setup();

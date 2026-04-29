@@ -1,0 +1,23 @@
+menuconfig LVGLDEMO_TEST
+	bool "enable lvgl demo test"
+	default n
+	depends on TESTS_TESTCASES
+	---help---
+		Enable build the lvgl demo programs
+
+if LVGLDEMO_TEST
+
+config LVGLDEMO_TEST_PRIORITY
+	int "lvgl_demo task priority"
+	default 100
+
+config LVGLDEMO_TEST_STACKSIZE
+	int "lvgl stack size"
+	default 32768
+
+config VECTOR_GRAPHIC_TEST
+	bool "vector graphic test"
+	default n
+	depends on LV_USE_VECTOR_GRAPHIC || LV_USE_VECTOR_GRAPHIC_OPTIMIZE
+
+endif # LVGLDEMO_TEST

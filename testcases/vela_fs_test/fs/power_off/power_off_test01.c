@@ -101,7 +101,7 @@ int main(int argc, FAR char *argv[])
             fsync(fd);
             if (w_size > 0)
             {
-                syslog(LOG_INFO, "Successfully write %d bytes to the file !\n", w_size);
+                syslog(LOG_INFO, "Successfully write %zd bytes to the file !\n", w_size);
                 syslog(LOG_INFO, "You can try to power off ... ... \n");
                 sleep(1);
             }

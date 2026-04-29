@@ -1,0 +1,28 @@
+menuconfig UIKIT_TEST
+	bool "enable uikit test"
+	default n
+	depends on GRAPHICS_LVGL
+	---help---
+		Enable build the UIKit Demo programs
+
+if UIKIT_TEST
+
+config UIKIT_TEST_PRIORITY
+	int "uikit_demo task priority"
+	default 100
+
+config UIKIT_TEST_STACKSIZE
+	int "uikit stack size"
+	default 32768
+
+config MARKDOWN_TEST
+	bool "MarkDown test"
+	depends on LIB_CMARK_GFM
+	default n
+
+config SVG_TEST
+	bool "SVG test"
+	depends on LV_USE_SVG && (LV_USE_VECTOR_GRAPHIC || LV_USE_VECTOR_GRAPHIC_OPTIMIZE)
+	default n
+
+endif # UIKIT_TEST
