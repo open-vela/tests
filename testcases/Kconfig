@@ -101,6 +101,7 @@ menu "Vela FS test Support"
 config FS_TEST_FUNCTION
 	bool "enable fs_function test"
 	default n
+	depends on TESTS_TESTSUITES && CM_FS_TEST
 
 config FS_TEST_STABILITY
 	bool "enable fs_stability test"
