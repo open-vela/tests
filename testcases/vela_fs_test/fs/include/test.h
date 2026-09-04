@@ -22,6 +22,14 @@ __attribute__((unused)) static void rm_test_dir(char *path)
     DIR *dir = opendir(path);
     struct dirent *dp = NULL;
     char *fullpath;
+    struct stat st;
+
+    if (dir == NULL)
+    {
+        unlink(path);
+        return;
+    }
+
     while ((dp = readdir(dir)) != NULL)
     {
         if (strcmp(dp->d_name, ".") == 0 || strcmp(dp->d_name, "..") == 0)
@@ -35,8 +43,15 @@ __attribute__((unused)) static void rm_test_dir(char *path)
             syslog(LOG_ERR, "rmdir malloc fail\n");
             goto close;
         }
-        sprintf(fullpath, "%s/%s", path, dp->d_name);
-        if (dp->d_type == 4)
+        if (snprintf(fullpath, CONFIG_PATH_MAX, "%s/%s", path,
+                     dp->d_name) >= CONFIG_PATH_MAX)
+        {
+            syslog(LOG_ERR, "path too long: %s/%s\n", path, dp->d_name);
+            free(fullpath);
+            continue;
+        }
+
+        if (lstat(fullpath, &st) == 0 && S_ISDIR(st.st_mode))
         {
             rm_test_dir(fullpath);
         }
@@ -54,11 +69,27 @@ close:
 __attribute__((unused)) static void cleanup(void)
 {
     char buf[CONFIG_PATH_MAX] = {0};
-    getcwd(buf, sizeof(buf));
-    rm_test_dir(buf);
+    if (getcwd(buf, sizeof(buf)) == NULL)
+    {
+        syslog(LOG_ERR, "[cleanup]:getcwd fail !\n");
+        return;
+    }
+
     char *str = basename(buf);
+    if (str == NULL || strcmp(str, TEST_DIR) != 0)
+    {
+        syslog(LOG_ERR, "[cleanup]:unexpected test path !\n");
+        return;
+    }
+
+    rm_test_dir(buf);
     int len = strlen(str);
     int slen = strlen(buf);
+    if (slen <= len)
+    {
+        return;
+    }
+
     buf[slen - len] = '\0';
     chdir(buf);
 }
@@ -66,10 +97,21 @@ __attribute__((unused)) static void cleanup(void)
 __attribute__((unused)) static void setup(void)
 {
     int ret;
-    char buf[20] = {0};
-    getcwd(buf, sizeof(buf));
-    strcat(buf, "/");
-    strcat(buf, TEST_DIR);
+    size_t pathlen;
+    char buf[CONFIG_PATH_MAX] = {0};
+    if (getcwd(buf, sizeof(buf)) == NULL)
+    {
+        syslog(LOG_ERR, "[setup]:getcwd fail !\n");
+        exit(1);
+    }
+
+    pathlen = strlen(buf);
+    ret = snprintf(buf + pathlen, sizeof(buf) - pathlen, "/%s", TEST_DIR);
+    if (ret < 0 || (size_t)ret >= sizeof(buf) - pathlen)
+    {
+        syslog(LOG_ERR, "[setup]:test path too long !\n");
+        exit(1);
+    }
     ret = mkdir(buf, S_IRWXU);
     if (ret == 0)
     {

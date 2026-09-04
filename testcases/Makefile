@@ -40,9 +40,9 @@ ifneq ($(CONFIG_KVDB_TEST),)
 endif
 
 ifneq ($(CONFIG_FS_TEST),)
-	include $(CURDIR)/fs_test/fs_test.mk
+	include $(CURDIR)/vela_fs_test/fs_test.mk
 	CFLAGS += -I$(APPDIR)/nshlib
-	CFLAGS += -I$(CURDIR)/fs_test/fs/include
+	CFLAGS += -I$(CURDIR)/vela_fs_test/fs/include
 endif
 
 ifneq ($(CONFIG_SOCKET_RPMSG_TEST),)

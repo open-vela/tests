@@ -21,7 +21,21 @@
 if(CONFIG_FS_TEST)
 
   testcase_incdirs(${NUTTX_APPS_DIR}/nshlib
-                   ${CMAKE_CURRENT_LIST_DIR}/fs/include)
+                   ${CMAKE_CURRENT_LIST_DIR}/fs/include
+                   ${NUTTX_APPS_DIR}/testing/testsuites/kernel/fs/include)
+
+  if(CONFIG_FS_TEST_FUNCTION)
+    testcase_app(vela_fs_stream_stream01
+                 fs/function/vela_fs_stream_stream01.c)
+    testcase_app(vela_fs_stream_stream02
+                 fs/function/vela_fs_stream_stream02.c)
+    testcase_app(vela_fs_stream_stream03
+                 fs/function/vela_fs_stream_stream03.c)
+    testcase_app(vela_fs_stream_stream04
+                 fs/function/vela_fs_stream_stream04.c)
+    testcase_app(vela_fs_lfs_append_test
+                 fs/function/vela_fs_lfs_append_test.c)
+  endif()
 
   if(CONFIG_FS_TEST_STRESS)
     testcase_app(vela_fs_stress_write_full_file fs/stress/write_full_file.c)

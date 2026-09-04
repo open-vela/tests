@@ -1,3 +1,17 @@
+ifneq ($(CONFIG_FS_TEST_FUNCTION),)
+	CFLAGS += -I$(APPDIR)/testing/testsuites/kernel/fs/include
+	PROGNAME += vela_fs_stream_stream01
+	MAINSRC += $(CURDIR)/vela_fs_test/fs/function/vela_fs_stream_stream01.c
+	PROGNAME += vela_fs_stream_stream02
+	MAINSRC += $(CURDIR)/vela_fs_test/fs/function/vela_fs_stream_stream02.c
+	PROGNAME += vela_fs_stream_stream03
+	MAINSRC += $(CURDIR)/vela_fs_test/fs/function/vela_fs_stream_stream03.c
+	PROGNAME += vela_fs_stream_stream04
+	MAINSRC += $(CURDIR)/vela_fs_test/fs/function/vela_fs_stream_stream04.c
+	PROGNAME += vela_fs_lfs_append_test
+	MAINSRC += $(CURDIR)/vela_fs_test/fs/function/vela_fs_lfs_append_test.c
+endif
+
 ifneq ($(CONFIG_FS_TEST_STRESS),)
 	PROGNAME += vela_fs_stress_write_full_file
 	MAINSRC += $(CURDIR)/vela_fs_test/fs/stress/write_full_file.c
